@@ -1,0 +1,52 @@
+# Parameters
+nc: 80  # number of classes
+fs: 7 # feature size
+nb: 2 # number of box
+
+depth_multiple: 1.0  # model depth multiple
+width_multiple: 1.0  # layer channel multiple
+
+# YOLOv5 v6.0 backbone
+backbone:
+  # [from, number, module, args]
+  [
+    [-1, 1, Conv_v1, [64, 7, 2]],  # 0-P1/2
+    [-1, 1, Maxpool_v1, [2, 2, 0]],
+    [-1, 1, Conv_v1, [192, 3, 1]],
+    [-1, 1, Maxpool_v1, [2, 2]],
+    [-1, 1, Conv_v1, [128, 1]],
+    [-1, 1, Conv_v1, [256, 3]],
+    [-1, 1, Conv_v1, [256, 1]],
+    [-1, 1, Conv_v1, [512, 3]],
+    [-1, 1, Maxpool_v1, [2, 2]],
+
+    [-1, 1, Conv_v1, [256, 1]], # times 4
+    [-1, 1, Conv_v1, [512, 3]],
+    [-1, 1, Conv_v1, [256, 1]],
+    [-1, 1, Conv_v1, [512, 3]],
+    [-1, 1, Conv_v1, [256, 1]],
+    [-1, 1, Conv_v1, [512, 3]],
+    [-1, 1, Conv_v1, [256, 1]],
+    [-1, 1, Conv_v1, [512, 3]],
+
+    [-1, 1, Conv_v1, [512, 1]],
+    [-1, 1, Conv_v1, [1024, 3]],
+    [-1, 1, Maxpool_v1, [2, 2]],
+
+    [-1, 1, Conv_v1, [512, 1]], # times 2
+    [-1, 1, Conv_v1, [1024, 3]],
+    [-1, 1, Conv_v1, [512, 1]],
+    [-1, 1, Conv_v1, [1024, 3]],
+
+    [-1, 1, Conv_v1, [1024, 3]],
+    [-1, 1, Conv_v1, [1024, 3, 2]],
+
+    [-1, 1, Conv_v1, [1024, 3]],
+    [-1, 1, Conv_v1, [1024, 3]],
+  ]
+
+# YOLOv5 v6.0 head
+head:
+  [
+    [[17, 20, 23], 1, Detect, [fs, nb, nc]],  # Detect(P3, P4, P5)
+  ]
