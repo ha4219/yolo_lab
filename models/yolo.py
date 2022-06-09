@@ -20,6 +20,7 @@ from models.common import *
 
 
 class Detect(nn.Module):
+    stride = None  # strides computed during build
     def __init__(self, fs=7, nb=2, nc=80):
         super().__init__()
         self.fc = nn.Sequential(
